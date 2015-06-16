@@ -1,5 +1,6 @@
 package com.example.guanqing.myapplication.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -80,7 +82,7 @@ public class MainActivityFragment extends Fragment {
                 "Sat 6/28 - Volcano ash - 23/18",
                 "Sun 6/29 - Sunny - 20/7"
         };
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
+        final List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
         adapter = new ArrayAdapter<String>(
                 getActivity(),
@@ -91,6 +93,18 @@ public class MainActivityFragment extends Fragment {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
+
+        //make a toast on item click in the listView
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //explicit intent
+                String forecast = adapter.getItem(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, forecast);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
@@ -244,7 +258,7 @@ public class MainActivityFragment extends Fragment {
 
                 URL url = new URL(builtUri.toString());
 
-                Log.v(LOG_TAG, "Built URI: "+builtUri.toString());
+                //Log.v(LOG_TAG, "Built URI: "+builtUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -314,8 +328,6 @@ public class MainActivityFragment extends Fragment {
 
         }
     }
-
-
 
 
 }
