@@ -15,5 +15,10 @@
     <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
          dismiss it. -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <ListPreference android:key="@string/pref_unit_key"
+        android:title="@string/pref_unit_label"
+        android:defaultValue="@string/pref_unit_metric"
+        android:entries="@array/pref_temp_entries"
+        android:entryValues="@array/pref_temp_entryValues" />
 
 </PreferenceScreen>
