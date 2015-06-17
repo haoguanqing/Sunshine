@@ -12,7 +12,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
 /*        ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.ic_launcher);
         actionBar.setDisplayUseLogoEnabled(true);

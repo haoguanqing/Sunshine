@@ -57,10 +57,14 @@ public class MainActivityFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         //Handle item selection
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+        switch (id) {
             case R.id.action_refresh:
                 FetchWeatherTask weatherTask = new FetchWeatherTask();
                 weatherTask.execute("94043");
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -82,7 +86,7 @@ public class MainActivityFragment extends Fragment {
                 "Sat 6/28 - Volcano ash - 23/18",
                 "Sun 6/29 - Sunny - 20/7"
         };
-        final List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
+        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
         adapter = new ArrayAdapter<String>(
                 getActivity(),
@@ -93,8 +97,6 @@ public class MainActivityFragment extends Fragment {
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(adapter);
-
-        //make a toast on item click in the listView
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -258,7 +260,7 @@ public class MainActivityFragment extends Fragment {
 
                 URL url = new URL(builtUri.toString());
 
-                //Log.v(LOG_TAG, "Built URI: "+builtUri.toString());
+                Log.v(LOG_TAG, "Built URI: "+builtUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -328,6 +330,8 @@ public class MainActivityFragment extends Fragment {
 
         }
     }
+
+
 
 
 }
