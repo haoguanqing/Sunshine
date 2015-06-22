@@ -234,7 +234,6 @@ public class MainActivityFragment extends Fragment {
 
 
 
-
         @Override
         protected String[] doInBackground(String... params){
 
@@ -344,8 +343,5 @@ public class MainActivityFragment extends Fragment {
 
         }
     }
-
-
-
 
 }
