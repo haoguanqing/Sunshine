@@ -252,7 +252,7 @@ public class MainActivityFragment extends Fragment {
 
             String format = "json";
             String units = "metric";
-            int numDays = 7;
+            int numDays = 14;
 
             try {
                 // Construct the URL for the OpenWeatherMap query
@@ -273,7 +273,7 @@ public class MainActivityFragment extends Fragment {
 
                 URL url = new URL(builtUri.toString());
 
-                Log.v(LOG_TAG, "Built URI: "+builtUri.toString());
+                //Log.v(LOG_TAG, "Built URI: "+builtUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
