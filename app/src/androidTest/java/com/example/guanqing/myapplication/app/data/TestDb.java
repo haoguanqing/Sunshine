@@ -111,6 +111,7 @@ public class TestDb extends AndroidTestCase {
         where you can uncomment out the "createNorthPoleLocationValues" function.  You can
         also make use of the ValidateCurrentRecord function from within TestUtilities.
     */
+    long locationRowId;
     public void testLocationTable() {
         // First step: Get reference to writable database
         WeatherDbHelper helper = new WeatherDbHelper(mContext);
@@ -121,7 +122,7 @@ public class TestDb extends AndroidTestCase {
         ContentValues values = TestUtilities.createNorthPoleLocationValues();
 
         // Insert ContentValues into database and get a row ID back
-        long locationRowId = db.insert(
+        locationRowId = db.insert(
                 WeatherContract.LocationEntry.TABLE_NAME,
                 null,
                 values);
@@ -173,21 +174,40 @@ public class TestDb extends AndroidTestCase {
         // and our testLocationTable can only return void because it's a test.
 
         // First step: Get reference to writable database
+        WeatherDbHelper helper = new WeatherDbHelper(mContext);
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         // Create ContentValues of what you want to insert
         // (you can use the createWeatherValues TestUtilities function if you wish)
+        ContentValues values = TestUtilities.createWeatherValues(locationRowId);
 
         // Insert ContentValues into database and get a row ID back
+        long weatherRowId = db.insert(WeatherContract.WeatherEntry.TABLE_NAME,
+                null, values);
+        assertTrue(weatherRowId!=-1);
 
         // Query the database and receive a Cursor back
+        Cursor cursor = db.query(WeatherContract.WeatherEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
 
         // Move the cursor to a valid database row
+        assertTrue(cursor.moveToFirst());
 
         // Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
         // query if you like)
+        TestUtilities.validateCurrentRecord("Error: Weather Query validation failed",
+                cursor, values);
 
         // Finally, close the cursor and database
+        assertFalse(cursor.moveToNext());
+        cursor.close();
+        db.close();
     }
 
 
