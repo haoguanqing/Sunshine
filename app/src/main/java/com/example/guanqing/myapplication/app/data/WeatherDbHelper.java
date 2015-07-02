@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app.data;
+package com.example.guanqing.myapplication.app.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.sunshine.app.data.WeatherContract.LocationEntry;
-import com.example.android.sunshine.app.data.WeatherContract.WeatherEntry;
+import com.example.guanqing.myapplication.app.data.WeatherContract.LocationEntry;
+import com.example.guanqing.myapplication.app.data.WeatherContract.WeatherEntry;
 
 /**
  * Manages a local database for weather data.
@@ -38,6 +38,19 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
+
+                LocationEntry._ID + " INTEGER PRIMARY KEY," +
+
+                // the ID of the location entry associated with this weather data
+                LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL, " +
+                LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " +
+                LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
+                LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL);";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_LOCATION_TABLE);
+
+
         final String SQL_CREATE_WEATHER_TABLE = "CREATE TABLE " + WeatherEntry.TABLE_NAME + " (" +
                 // Why AutoIncrement here, and not above?
                 // Unique keys will be auto-generated in either case.  But for weather
@@ -67,7 +80,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
                 // To assure the application have just one weather entry per day
                 // per location, it's created a UNIQUE constraint with REPLACE strategy
                 " UNIQUE (" + WeatherEntry.COLUMN_DATE + ", " +
-                WeatherEntry.COLUMN_LOC_KEY + ") ON CONFLICT REPLACE);";
+                WeatherEntry.COLUMN_LOC_KEY + ") ON CONFLICT REPLACE);";;
 
         sqLiteDatabase.execSQL(SQL_CREATE_WEATHER_TABLE);
     }
@@ -75,7 +88,7 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
+        // to simply discard the data and start over
         // Note that this only fires if you change the version number for your database.
         // It does NOT depend on the version number for your application.
         // If you want to update the schema without wiping data, commenting out the next 2 lines
