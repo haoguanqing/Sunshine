@@ -34,6 +34,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.guanqing.myapplication.app.MainActivity" />
         </activity>
+        <provider
+            android:authorities="com.example.guanqing.myapplication.app"
+            android:name=".data.WeatherProvider" />
     </application>
 
 </manifest>
